@@ -1,5 +1,5 @@
 import {appwriteCredentials, client, account, database, bucket} from "./appwriteConfig";
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
 
 class BlogService{
 
@@ -18,6 +18,21 @@ class BlogService{
             )
         } catch (error) {
             console.log("Appwrite Create Blog Error: ",error);
+            throw error
+        }
+    }
+
+    async getBlogs(){
+        try {
+            return await database.listDocuments(
+                appwriteCredentials.appwriteDatabasetId,
+                appwriteCredentials.appwriteCollectiontId,
+                [
+                    Query.equal("published", true),
+                    Query.orderDesc("$createdAt")
+                ]
+            )
+        } catch (error) {
             throw error
         }
     }

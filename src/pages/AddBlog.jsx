@@ -21,7 +21,12 @@ const AddBlog = () => {
             .trim()
             .toLowerCase()
             .replace(/[^a-zA-Z\d\s]+/g, "-")
-            .replace(/\s/g, "-");
+            .replace(/\s/g, "-")
+            .substring(0,30);
+        // if(slug.length<30){
+        // } else {
+        //     return ""
+        // }
     }
 
     const handleTitleChange = (e) => {
@@ -30,24 +35,32 @@ const AddBlog = () => {
         setSlug(newSlug)
     }
 
+    const handleEditorChange = (e) => {
+        setContent(editorRef.current.getContent());
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setContent(editorRef.current.getContent());
-        if (editorRef.current) {
-        }
-        console.log(content);
-        // try {
-        //     const featuredImage = await blogService.fileUpload(file)
-        //     if (file) {
-        //         const fileId = featuredImage.$id;
-        //         let response = blogService.createBlog(title, slug, content, fileId, user.$id)
-        //         if (response) {
-        //             navigate("/profile")
-        //         }
-        //     }
-        // } catch (error) {
-        //     setError(error.message)
+        // setContent(editorRef.current.getContent());
+        // if (editorRef.current) {
         // }
+        console.log(content);
+        try {
+            const featuredImage = await blogService.fileUpload(file)
+            if (file) {
+                const fileId = featuredImage.$id;
+                let response = await blogService.createBlog(title, slug, content, fileId, user.$id)
+                if (response) {
+                    navigate("/")
+                }
+            }
+        } catch (error) {
+            if (error.message.includes("Document with the requested ID already exists.")) {
+                setError("Please chnage the blog title as its already in use.")
+            } else {
+                setError(error.message)
+            }
+        }
 
     }
 
@@ -58,6 +71,7 @@ const AddBlog = () => {
                     <div className="card border-0">
                         <div className="card-body">
                             <h3 className="text-center">Add A Blog</h3>
+                            <p className="test-danger">{error}</p>
                             <form method="post" onSubmit={handleSubmit}>
                                 <div className="mb-2">
                                     <label>Title</label>
@@ -82,39 +96,23 @@ const AddBlog = () => {
                                 <div className="mb-2">
                                     <label className="form-label">Article</label>
                                     <Editor
-                                        apiKey="pob0bm6hpfwlxyo31851hk18ni6px5dc90q0p3ilmuthet02"
-                                        onInit={(evt, editor) => (editorRef.current = editor)}
+                                        onInit={(evt, editor) => editorRef.current = editor}
+                                        initialValue=""
                                         init={{
                                             height: 500,
                                             menubar: false,
                                             plugins: [
-                                                "advlist",
-                                                "autolink",
-                                                "lists",
-                                                "link",
-                                                "image",
-                                                "charmap",
-                                                "preview",
-                                                "anchor",
-                                                "searchreplace",
-                                                "visualblocks",
-                                                "code",
-                                                "fullscreen",
-                                                "insertdatetime",
-                                                "media",
-                                                "table",
-                                                "code",
-                                                "help",
-                                                "wordcount",
+                                                'advlist autolink lists link image charmap print preview anchor',
+                                                'searchreplace visualblocks code fullscreen',
+                                                'insertdatetime media table paste code help wordcount'
                                             ],
-                                            toolbar:
-                                                "undo redo | blocks | " +
-                                                "bold italic forecolor | alignleft aligncenter " +
-                                                "alignright alignjustify | bullist numlist outdent indent | " +
-                                                "removeformat | help",
-                                            content_style:
-                                                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                                            toolbar: 'undo redo | formatselect | ' +
+                                                'bold italic backcolor | alignleft aligncenter ' +
+                                                'alignright alignjustify | bullist numlist outdent indent | ' +
+                                                'removeformat | help',
+                                            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                                         }}
+                                        onEditorChange={handleEditorChange}
                                     />
                                 </div>
                                 <div className="mb-2">
@@ -123,6 +121,7 @@ const AddBlog = () => {
                                         type="file"
                                         name="image"
                                         className="form-control border-0 border-bottom border-white rounded-0 shadow-none"
+                                        accept="image/png, image/jpg, image/jpeg, image/gif"
                                         onChange={(e) => setFile(e.target.files[0])}
                                     />
                                 </div>
