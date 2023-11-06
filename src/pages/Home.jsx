@@ -18,8 +18,8 @@ const Home = () => {
     let blogs = await blogService.getBlogs()
     if(blogs){
       setBlogs(blogs.documents)
-      console.log(typeof(blogs))
-      console.log(blogs);
+      // console.log(typeof(blogs))
+      // console.log(blogs);
     }
   }
   

@@ -38,8 +38,8 @@ class AuthService {
         try{
             return await account.get();
         } catch (error){
-            console.log('getCurrentUser: ',error);
-            // throw error
+            // console.log('getCurrentUser: ',error);
+            throw error
         }
     }
 

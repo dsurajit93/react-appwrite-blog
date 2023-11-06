@@ -37,6 +37,18 @@ class BlogService{
         }
     }
 
+    async getBlog(id){
+        try {
+            return await database.getDocument(
+                appwriteCredentials.appwriteDatabasetId,
+                appwriteCredentials.appwriteCollectiontId,
+                id
+            )
+        } catch (error) {
+            throw error
+        }
+    }
+
 
     // File Operations
     async fileUpload(file){

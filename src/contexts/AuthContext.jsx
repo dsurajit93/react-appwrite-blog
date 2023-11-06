@@ -16,6 +16,7 @@ export const AuthProvider = ({children}) => {
             setUser(userDetails)
         } catch (error) {
             console.log("UserContext: ",error)
+            setUser(false)
         }
         setLoading(false)
     }

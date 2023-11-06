@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import authService from '../appwrite/authService'
 import { useAuth } from '../contexts/AuthContext'
 
 const SignIn = () => {
     const navigate = useNavigate()
+    const {state} = useLocation()
     const {user, setUser } = useAuth()
     if(user){
         navigate("/")
@@ -29,7 +30,13 @@ const SignIn = () => {
             if(user){
                 console.log("Login Successfull");
                 setUser(user)
-                navigate("/")
+                if(state && state.next){
+                    console.log(state.next);
+                    console.log("Next is available");
+                    navigate(`/blog/${state.next}`)
+                } else {
+                    navigate("/")
+                }
             }
         } catch (error) {
             setError(error.message)
@@ -43,6 +50,7 @@ const SignIn = () => {
                 <div className="card rounded-0 border-0">
                     <div className="card-body">
                         <h2 className="h2 text-center mb-3">Sign In</h2>
+                        {state && state.error && <p className='text-danger'>{state.error}</p>}
                         <p className='text-danger'>{error}</p>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-2">
