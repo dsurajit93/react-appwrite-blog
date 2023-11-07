@@ -49,7 +49,7 @@ const AddBlog = () => {
             const featuredImage = await blogService.fileUpload(file)
             if (file) {
                 const fileId = featuredImage.$id;
-                let response = await blogService.createBlog(title, slug, content, fileId, user.$id)
+                let response = await blogService.createBlog(title, slug, content, fileId, user.$id, user.name)
                 if (response) {
                     navigate("/")
                 }

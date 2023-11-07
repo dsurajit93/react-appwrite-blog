@@ -3,7 +3,7 @@ import { ID, Query } from "appwrite";
 
 class BlogService{
 
-    async createBlog(title, slug, content, featured_image, user_id){
+    async createBlog(title, slug, content, featured_image, user_id, user_name){
         try {
             return await database.createDocument(
                 appwriteCredentials.appwriteDatabasetId,
@@ -13,7 +13,8 @@ class BlogService{
                     slug,
                     content,
                     featured_image,
-                    user_id
+                    user_id,
+                    user_name
                 }
             )
         } catch (error) {
@@ -65,6 +66,20 @@ class BlogService{
         }
     }
 
+    async deleteBlog(slug){
+        try {
+            await database.deleteDocument(
+                appwriteCredentials.appwriteDatabasetId,
+                appwriteCredentials.appwriteCollectiontId,
+                slug
+            )
+            return true
+        } catch (error) {
+            console.log("Appwrite serive :: deletePost :: error", error);
+            return false
+        }
+    }
+
 
     // File Operations
     async fileUpload(file){
@@ -88,6 +103,19 @@ class BlogService{
             )
         } catch (error) {
             throw error
+        }
+    }
+
+    async deleteFile(fileId){
+        try {
+            await bucket.deleteFile(
+                appwriteCredentials.appwriteBucketId,
+                fileId
+            )
+            return true
+        } catch (error) {
+            console.log("Appwrite serive :: deleteFile :: error", error);
+            return false
         }
     }
 }

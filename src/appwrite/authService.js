@@ -1,5 +1,5 @@
-import {appwriteCredentials, client, account, database} from "./appwriteConfig";
-import { ID } from "appwrite";
+import { client, account} from "./appwriteConfig";
+import { ID, } from "appwrite";
 
 class AuthService {
     async createAccount(credentails){
@@ -57,15 +57,6 @@ class AuthService {
             return user
         } catch (error) {
             console.log(" change password :: error", error);
-            throw error
-        }
-    }
-
-    async getUserDetails(userId){
-        try {
-            return await account.get(userId);
-        } catch (error) {
-            console.log("GetUserDetails Error: ", error);
             throw error
         }
     }
