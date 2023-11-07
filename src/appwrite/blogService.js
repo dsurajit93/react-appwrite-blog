@@ -49,6 +49,22 @@ class BlogService{
         }
     }
 
+    async getUsersBlog(userId){
+        try {
+            return await database.listDocuments(
+                appwriteCredentials.appwriteDatabasetId,
+                appwriteCredentials.appwriteCollectiontId,
+                [
+                    Query.equal("user_id", userId),
+                    Query.orderDesc("$createdAt")
+                ]
+            )
+        } catch (error) {
+            console.log("GetUser'sBlog Error: ", error);
+            throw error
+        }
+    }
+
 
     // File Operations
     async fileUpload(file){
@@ -61,6 +77,17 @@ class BlogService{
         } catch (error) {
             console.log("Appwrite file upload error: ", error)
             return false
+        }
+    }
+
+    getFilePreview(fileId){
+        try {
+            return bucket.getFilePreview(
+                appwriteCredentials.appwriteBucketId,
+                fileId
+            )
+        } catch (error) {
+            throw error
         }
     }
 }

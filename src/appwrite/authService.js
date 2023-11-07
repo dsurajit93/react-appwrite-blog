@@ -60,6 +60,15 @@ class AuthService {
             throw error
         }
     }
+
+    async getUserDetails(userId){
+        try {
+            return await account.get(userId);
+        } catch (error) {
+            console.log("GetUserDetails Error: ", error);
+            throw error
+        }
+    }
 }
 
 const authService = new AuthService()
