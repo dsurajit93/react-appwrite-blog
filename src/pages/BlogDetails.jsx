@@ -63,7 +63,7 @@ const BlogDetails = () => {
                                 <Settings />
                             </button>
                             <ul className="dropdown-menu">
-                                <li><Link to={"/"} className="dropdown-item" href="#">Edit</Link></li>
+                                <li><Link to={`/blog/update/${blog.$id}`} className="dropdown-item" href="#">Edit</Link></li>
                                 <li><Link to={"/"} onClick={deleteBlog} className="dropdown-item" href="#">Delete</Link></li>  
                             </ul>
                             </div>

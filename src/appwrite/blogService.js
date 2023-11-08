@@ -61,7 +61,7 @@ class BlogService{
                 ]
             )
         } catch (error) {
-            console.log("GetUser'sBlog Error: ", error);
+            console.log("GetUser's Blog Error: ", error);
             throw error
         }
     }
@@ -75,10 +75,30 @@ class BlogService{
             )
             return true
         } catch (error) {
-            console.log("Appwrite serive :: deletePost :: error", error);
+            console.log("Appwrite delete blog error: ", error);
             return false
         }
     }
+
+    async updateBlog(id, title, slug, content, featured_image, published){
+        try {
+            return await database.updateDocument(
+                appwriteCredentials.appwriteDatabasetId,
+                appwriteCredentials.appwriteCollectiontId,
+                id,
+                {
+                    title,
+                    content,
+                    slug,
+                    featured_image,
+                    published
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite update blog error: ", error);
+        }
+    }
+
 
 
     // File Operations

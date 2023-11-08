@@ -12,6 +12,7 @@ import Profile from './pages/Profile';
 import ChangePassword from './pages/ChangePassword';
 import AddBlog from './pages/AddBlog';
 import BlogDetails from './pages/BlogDetails';
+import UpdateBlog from './pages/UpdateBlog';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/blog/:slug" element={<BlogDetails />} />
+            <Route path="/blog/update/:id" element={<UpdateBlog />} />
             <Route element={<ProtectedRoute/> }>
               <Route path="/addBlog" element={<AddBlog />} />
               <Route path="/profile" element={<Profile />} />
