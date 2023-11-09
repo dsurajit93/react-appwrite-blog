@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import authService from '../appwrite/authService'
 import { useAuth } from '../contexts/AuthContext'
+import { Link } from 'react-router-dom'
 
 const SignIn = () => {
     const navigate = useNavigate()
@@ -29,6 +30,10 @@ const SignIn = () => {
             const user = await authService.login(credentials)
             if(user){
                 console.log("Login Successfull");
+                setCredentials({
+                    email: "",
+                    password: "",
+                })
                 setUser(user)
                 if(state && state.next){
                     console.log(state.next);
@@ -79,10 +84,10 @@ const SignIn = () => {
                                 <input 
                                     type="submit" 
                                     value="Sign In"
-                                    className="btn btn-secondary w-100 rounded-0" 
-                                    required 
+                                    className="btn btn-secondary w-100 rounded-0"  
                                 />
                             </div>
+                            <p>Dont have an account? <Link to="/signup">Create One</Link></p>
                         </form>
                     </div>
                 </div>

@@ -34,6 +34,8 @@ class BlogService{
                 ]
             )
         } catch (error) {
+            console.log("Appwrite Fetch Blog Error: ",error);
+            throw error
             throw error
         }
     }
@@ -96,6 +98,42 @@ class BlogService{
             )
         } catch (error) {
             console.log("Appwrite update blog error: ", error);
+        }
+    }
+
+    // Comment
+    async addComment(blog_id, user_id, user_name, comment){
+        try {
+            return await database.createDocument(
+                appwriteCredentials.appwriteDatabasetId,
+                appwriteCredentials.appwriteCommentCollectiontId,
+                ID.unique(),
+                {
+                    comment: comment,
+                    user_id: user_id,
+                    user_name: user_name,
+                    blog_id: blog_id
+                }
+            )
+        } catch (error) {
+            console.log("Add Comment Error: ", error);
+            throw error;
+        }
+    }
+
+    async getComment(blog_id){
+        try {
+            return await database.listDocuments(
+                appwriteCredentials.appwriteDatabasetId,
+                appwriteCredentials.appwriteCommentCollectiontId,
+                [
+                    Query.equal("blog_id", blog_id),
+                    Query.orderDesc("$createdAt")
+                ]
+            )
+        } catch (error) {
+            console.log("Fetch Comment Error: ", error);
+            throw error
         }
     }
 

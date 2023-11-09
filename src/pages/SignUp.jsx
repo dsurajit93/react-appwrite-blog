@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import authService from '../appwrite/authService'
+import { Link } from 'react-router-dom'
 
 const SignUp = () => {
     const [credentials, setCredentials] = useState({
@@ -31,6 +32,12 @@ const SignUp = () => {
             let userDetals = await authService.createAccount(credentials)
             if(userDetals){
                 setSuccess("Account Created Successfully. Login to Continue")
+                setCredentials({
+                    name: "",
+                    email: "",
+                    password: "",
+                    password2: ""
+                })
             } else {
                 setError("Something Went Worng. Try Again Later")
             }
@@ -100,9 +107,9 @@ const SignUp = () => {
                                     type="submit" 
                                     value="Sign Up"
                                     className="btn btn-secondary w-100 rounded-0" 
-                                    required 
                                 />
                             </div>
+                            <p>Already have an account? <Link to="/signin">Sign In</Link></p>
                         </form>
                     </div>
                 </div>

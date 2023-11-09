@@ -4,6 +4,7 @@ import blogService from '../appwrite/blogService';
 import { useAuth } from '../contexts/AuthContext'
 import parse from 'html-react-parser'
 import {Settings} from 'react-feather'
+import Comment from '../components/Comment';
 
 const BlogDetails = () => {
     const [blog, setBlog] = useState(false)
@@ -79,6 +80,7 @@ const BlogDetails = () => {
                         </div>
                     </div>
                 </div>
+                <Comment blog={blog} />
             </div>
         }
     </div>
